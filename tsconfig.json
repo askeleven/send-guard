@@ -1,0 +1,18 @@
+{
+  "//": "Types are generated from the JSDoc in src/. The package itself stays plain ESM JavaScript with zero runtime dependencies - this only emits .d.ts files so TypeScript consumers get real types instead of `any`.",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "allowJs": true,
+    "checkJs": true,
+    "strict": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "types",
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.js"]
+}

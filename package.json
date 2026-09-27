@@ -1,0 +1,57 @@
+{
+  "name": "@askeleven/send-guard",
+  "version": "0.1.0",
+  "description": "Check an email list before an agent (or a person) sends to it. Free local checks, optional mailbox verification via Analyzemail. CLI, library, and MCP server. Zero dependencies.",
+  "type": "module",
+  "license": "MIT",
+  "author": "AskEleven",
+  "homepage": "https://github.com/askeleven/send-guard",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/askeleven/send-guard.git"
+  },
+  "bugs": {
+    "url": "https://github.com/askeleven/send-guard/issues"
+  },
+  "keywords": [
+    "email",
+    "email-verification",
+    "email-validation",
+    "list-hygiene",
+    "bounce",
+    "deliverability",
+    "mcp",
+    "mcp-server",
+    "ai-agents"
+  ],
+  "bin": {
+    "send-guard": "bin/cli.js"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
+  "files": [
+    "bin",
+    "src",
+    "types",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test",
+    "build:types": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build:types && npm test"
+  },
+  "types": "types/index.d.ts",
+  "devDependencies": {
+    "@types/node": "^22.20.2",
+    "typescript": "^5.9.3"
+  }
+}

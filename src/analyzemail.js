@@ -55,6 +55,12 @@ export class AnalyzemailError extends Error {
 /** A 429 that asks for longer than this is the daily limit, not a burst; stop instead. */
 const MAX_RATE_LIMIT_WAIT_S = 60
 const MAX_RETRIES = 3
+/**
+ * Short 429 waits allowed per request. Separate from MAX_RETRIES: accounts that have never
+ * bought credits get 2 requests a second, and several checks in flight will hit that
+ * routinely. Waiting it out is correct; giving up would drop checks the account can afford.
+ */
+const MAX_RATE_LIMIT_WAITS = 30
 
 /**
  * @param {object} options
@@ -86,6 +92,7 @@ export function createClient(options) {
    * @returns {Promise<{ status: number, json: any }>}
    */
   async function request(method, path, body) {
+    let rateLimitWaits = 0
     for (let attempt = 0; ; attempt++) {
       /** @type {Response} */
       let response
@@ -117,7 +124,9 @@ export function createClient(options) {
 
       if (response.status === 429) {
         const retryAfter = Number(response.headers.get('Retry-After')) || 1
-        if (retryAfter <= MAX_RATE_LIMIT_WAIT_S && attempt < MAX_RETRIES) {
+        if (retryAfter <= MAX_RATE_LIMIT_WAIT_S && rateLimitWaits < MAX_RATE_LIMIT_WAITS) {
+          rateLimitWaits++
+          attempt--
           await sleep(retryAfter * 1000)
           continue
         }

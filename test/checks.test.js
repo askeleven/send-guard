@@ -345,6 +345,25 @@ test('client: sends the key, polls a pending check, retries a short 429', async 
   assert.equal(slept[0], 1000)
 })
 
+test('client: waits out a sustained per-second limit instead of giving up', async () => {
+  let calls = 0
+  const client = createClient({
+    apiKey: 'am_live_test',
+    baseUrl: 'https://api.invalid/v2',
+    fetch: async () => {
+      calls++
+      if (calls <= 10) return new Response('{}', { status: 429, headers: { 'Retry-After': '1' } })
+      return new Response(
+        JSON.stringify({ data: { id: 'v1', state: 'complete', result: verification({ email: 'a@b.test' }) } }),
+        { status: 200 },
+      )
+    },
+    sleep: async () => {},
+  })
+  assert.equal((await client.verify('a@b.test'))?.status, 'deliverable')
+  assert.equal(calls, 11)
+})
+
 test('client: maps API errors and does not retry the daily limit', async () => {
   const client = createClient({
     apiKey: 'am_live_test',

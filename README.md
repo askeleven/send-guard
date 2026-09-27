@@ -57,6 +57,12 @@ and send-guard checks every address that **passed** the local checks. It never s
 credit on an address it has already ruled out, or on a duplicate. One credit per address,
 and a check the mail server does not answer is refunded.
 
+**250 mailbox checks a month are free** on any Analyzemail account with a confirmed email
+address. They reset at 00:00 UTC on the 1st, do not roll over, and are spent before any
+credits you buy. Until an account has bought credits, it is limited to 2 checks a second
+and 500 a day; send-guard waits out the per-second limit on its own.
+[AskEleven](https://askeleven.com) customers get 25,000 a month.
+
 Before spending anything it checks your balance and refuses to start if the list would
 cost more than `--max-credits` (default 1,000), so an agent cannot spend more than you
 expect.

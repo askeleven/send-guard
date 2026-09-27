@@ -1,0 +1,26 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['20', '22', '24']
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ matrix.node }}
+      # devDependencies are typescript only; nothing ships at runtime.
+      - run: npm ci --no-audit --no-fund
+      # Tests use fixture DNS and a fake API client and never touch the network,
+      # so no flakiness and no reason to skip them on any Node version.
+      - run: node --test
+      # The published .d.ts files are generated from the JSDoc in src/, so a
+      # wrong annotation is a real defect and CI has to catch it.
+      - run: npx tsc -p tsconfig.json --noEmit

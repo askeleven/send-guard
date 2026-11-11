@@ -1,0 +1,36 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.askeleven/send-guard",
+  "title": "Send Guard",
+  "description": "Checks an email list before an agent sends to it. Optional mailbox verification.",
+  "repository": {
+    "url": "https://github.com/askeleven/send-guard",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/askeleven/send-guard",
+  "version": "0.1.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@askeleven/send-guard",
+      "version": "0.1.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        }
+      ],
+      "environmentVariables": [
+        {
+          "name": "ANALYZEMAIL_API_KEY",
+          "description": "Optional Analyzemail key for mailbox verification",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

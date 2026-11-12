@@ -1,6 +1,7 @@
 {
   "name": "@askeleven/send-guard",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "mcpName": "io.github.askeleven/send-guard",
   "description": "Check an email list before an agent (or a person) sends to it. Free local checks, optional mailbox verification via Analyzemail. CLI, library, and MCP server. Zero dependencies.",
   "type": "module",
   "license": "MIT",
